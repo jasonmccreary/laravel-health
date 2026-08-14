@@ -1,8 +1,8 @@
 <?php
 
-use JMac\Testing\Double;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
+use JMac\Testing\Double;
 use Spatie\Health\Checks\Checks\BackupsCheck;
 use Spatie\Health\Enums\Status;
 use Spatie\Health\Facades\Health;

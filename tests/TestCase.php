@@ -2,9 +2,9 @@
 
 namespace Spatie\Health\Tests;
 
-use JMac\Testing\Double;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Schema;
+use JMac\Testing\Double;
 use Laravel\Horizon\Contracts\MasterSupervisorRepository;
 use Laravel\Horizon\HorizonServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;

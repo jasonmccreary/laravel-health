@@ -1,9 +1,9 @@
 <?php
 
-use JMac\Testing\Double;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
+use JMac\Testing\Double;
 use Spatie\Health\Commands\PauseHealthChecksCommand;
 use Spatie\Health\Commands\RunHealthChecksCommand;
 use Spatie\Health\Facades\Health;
