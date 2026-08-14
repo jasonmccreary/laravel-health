@@ -1,5 +1,6 @@
 <?php
 
+use JMac\Testing\Double;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Health\Commands\PauseHealthChecksCommand;
@@ -129,7 +130,7 @@ it('has an option that will let the command fail when a check fails', function (
 });
 
 it('does not perform checks if checks are paused', function () {
-    $mockRepository = Mockery::mock(Repository::class);
+    $mockRepository = Double::for(Repository::class);
 
     $mockRepository->shouldReceive('get')
         ->once()

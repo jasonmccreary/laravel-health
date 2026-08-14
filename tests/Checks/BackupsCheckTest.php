@@ -1,5 +1,6 @@
 <?php
 
+use JMac\Testing\Double;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Health\Checks\Checks\BackupsCheck;
@@ -338,7 +339,7 @@ it('can check the size of only the first and last backup files', function () {
 });
 
 it('uses the size and last modified it was given instead of asking the disk', function () {
-    $disk = Mockery::mock(Filesystem::class);
+    $disk = Double::for(Filesystem::class);
     $disk->shouldNotReceive('size');
     $disk->shouldNotReceive('lastModified');
 
@@ -355,7 +356,7 @@ it('reads every backup from a single listing instead of one request per file', f
         Storage::disk('backups')->put("backups/{$name}.zip", 'content');
     }
 
-    $disk = Mockery::mock(Storage::disk('backups'))->makePartial();
+    $disk = Double::for(Storage::disk('backups'))->passthru();
     $disk->shouldNotReceive('size');
     $disk->shouldNotReceive('lastModified');
     Storage::set('backups', $disk);

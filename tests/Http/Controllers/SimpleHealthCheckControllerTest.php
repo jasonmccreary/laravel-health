@@ -1,5 +1,6 @@
 <?php
 
+use JMac\Testing\Double;
 use Illuminate\Contracts\Cache\Repository;
 use Spatie\Health\Commands\PauseHealthChecksCommand;
 use Spatie\Health\Commands\RunHealthChecksCommand;
@@ -50,7 +51,7 @@ it('will return a 503 status for a unhealthy check', function () {
 it('does not perform checks if checks are paused', function () {
     artisan(RunHealthChecksCommand::class);
 
-    $mockRepository = Mockery::mock(Repository::class);
+    $mockRepository = Double::for(Repository::class);
 
     $mockRepository->shouldReceive('missing')
         ->once()

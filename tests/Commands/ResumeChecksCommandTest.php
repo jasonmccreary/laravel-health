@@ -1,5 +1,6 @@
 <?php
 
+use JMac\Testing\Double;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Health\Commands\PauseHealthChecksCommand;
@@ -8,7 +9,7 @@ use Spatie\Health\Commands\ResumeHealthChecksCommand;
 use function Pest\Laravel\artisan;
 
 it('forgets cache value', function () {
-    $mockRepository = Mockery::mock(Repository::class);
+    $mockRepository = Double::for(Repository::class);
 
     $mockRepository->shouldReceive('forget')
         ->once()

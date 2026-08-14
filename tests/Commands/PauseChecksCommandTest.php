@@ -1,5 +1,6 @@
 <?php
 
+use JMac\Testing\Double;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Health\Commands\PauseHealthChecksCommand;
@@ -7,7 +8,7 @@ use Spatie\Health\Commands\PauseHealthChecksCommand;
 use function Pest\Laravel\artisan;
 
 it('sets cache value to true for default ttl', function () {
-    $mockRepository = Mockery::mock(Repository::class);
+    $mockRepository = Double::for(Repository::class);
 
     $mockRepository->shouldReceive('put')
         ->once()
@@ -28,7 +29,7 @@ it('sets cache value to true for default ttl', function () {
 });
 
 it('sets cache value to true for custom ttl', function () {
-    $mockRepository = Mockery::mock(Repository::class);
+    $mockRepository = Double::for(Repository::class);
 
     $mockRepository->shouldReceive('put')
         ->once()
