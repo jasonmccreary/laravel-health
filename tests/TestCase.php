@@ -4,9 +4,9 @@ namespace Spatie\Health\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Schema;
+use JMac\Testing\Double;
 use Laravel\Horizon\Contracts\MasterSupervisorRepository;
 use Laravel\Horizon\HorizonServiceProvider;
-use Mockery;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Health\HealthServiceProvider;
 
@@ -39,23 +39,20 @@ class TestCase extends Orchestra
 
     protected function fakeHorizonStatus(string $status): void
     {
-        $masters = Mockery::mock(MasterSupervisorRepository::class);
-        $masters->shouldReceive('all')->andReturn(
-            $status === 'down' ? [] : [
+        $masters = Double::for(MasterSupervisorRepository::class);
+        $masters->allows('all')->returns($status === 'down' ? [] : [
                 (object) ['status' => $status],
                 (object) ['status' => $status],
-            ]
-        );
+            ]);
 
         $this->app->instance(MasterSupervisorRepository::class, $masters);
     }
 
     protected function fakeHorizonStatusSequence(array $statuses): void
     {
-        $masters = Mockery::mock(MasterSupervisorRepository::class);
+        $masters = Double::for(MasterSupervisorRepository::class);
 
-        $masters->shouldReceive('all')
-            ->andReturnUsing(function () use (&$statuses) {
+        $masters->allows('all')->resolves(function () use (&$statuses) {
                 $status = array_shift($statuses);
 
                 return $status === 'down' ? [] : [
