@@ -1,7 +1,6 @@
 <?php
 
-use JMac\Testing\Double;
-use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Notification;
 use Spatie\Health\Commands\PauseHealthChecksCommand;
 use Spatie\Health\Commands\RunHealthChecksCommand;
@@ -130,13 +129,7 @@ it('has an option that will let the command fail when a check fails', function (
 });
 
 it('does not perform checks if checks are paused', function () {
-    $mockRepository = Double::for(Repository::class);
-
-    $mockRepository->expects('get')->with(PauseHealthChecksCommand::CACHE_KEY)->returns(true);
-
-    Cache::swap($mockRepository);
-
-    Cache::shouldReceive('driver')->andReturn($mockRepository);
+    Cache::put(PauseHealthChecksCommand::CACHE_KEY, true);
 
     artisan('health:check')->assertSuccessful()->expectsOutput('Checks paused');
 

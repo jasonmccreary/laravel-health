@@ -1,7 +1,5 @@
 <?php
 
-use JMac\Testing\Double;
-use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Health\Commands\PauseHealthChecksCommand;
 use Spatie\Health\Commands\ResumeHealthChecksCommand;
@@ -9,15 +7,11 @@ use Spatie\Health\Commands\ResumeHealthChecksCommand;
 use function Pest\Laravel\artisan;
 
 it('forgets cache value', function () {
-    $mockRepository = Double::for(Repository::class);
-
-    $mockRepository->expects('forget')->with(PauseHealthChecksCommand::CACHE_KEY)->returns(true);
-
-    Cache::swap($mockRepository);
-
-    Cache::shouldReceive('driver')->andReturn($mockRepository);
+    Cache::put(PauseHealthChecksCommand::CACHE_KEY, true);
 
     artisan(ResumeHealthChecksCommand::class)
         ->assertSuccessful()
         ->expectsOutput('All health check resumed');
+
+    expect(Cache::has(PauseHealthChecksCommand::CACHE_KEY))->toBeFalse();
 });
