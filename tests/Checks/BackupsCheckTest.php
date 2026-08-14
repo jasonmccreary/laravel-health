@@ -340,8 +340,8 @@ it('can check the size of only the first and last backup files', function () {
 
 it('uses the size and last modified it was given instead of asking the disk', function () {
     $disk = Double::for(Filesystem::class);
-    $disk->shouldNotReceive('size');
-    $disk->shouldNotReceive('lastModified');
+    $disk->expects('size')->never();
+    $disk->expects('lastModified')->never();
 
     $backupFile = new BackupFile('backups/hey.zip', $disk, null, 1234, 1704067200);
 
@@ -357,8 +357,8 @@ it('reads every backup from a single listing instead of one request per file', f
     }
 
     $disk = Double::for(Storage::disk('backups'))->passthru();
-    $disk->shouldNotReceive('size');
-    $disk->shouldNotReceive('lastModified');
+    $disk->expects('size')->never();
+    $disk->expects('lastModified')->never();
     Storage::set('backups', $disk);
 
     $result = $this->backupsCheck

@@ -53,10 +53,7 @@ it('does not perform checks if checks are paused', function () {
 
     $mockRepository = Double::for(Repository::class);
 
-    $mockRepository->shouldReceive('missing')
-        ->once()
-        ->with(PauseHealthChecksCommand::CACHE_KEY)
-        ->andReturn(false);
+    $mockRepository->expects('missing')->with(PauseHealthChecksCommand::CACHE_KEY)->returns(false);
 
     Cache::swap($mockRepository);
 

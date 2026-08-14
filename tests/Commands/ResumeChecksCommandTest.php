@@ -11,10 +11,7 @@ use function Pest\Laravel\artisan;
 it('forgets cache value', function () {
     $mockRepository = Double::for(Repository::class);
 
-    $mockRepository->shouldReceive('forget')
-        ->once()
-        ->with(PauseHealthChecksCommand::CACHE_KEY)
-        ->andReturn(true);
+    $mockRepository->expects('forget')->with(PauseHealthChecksCommand::CACHE_KEY)->returns(true);
 
     Cache::swap($mockRepository);
 

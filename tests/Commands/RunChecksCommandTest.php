@@ -132,10 +132,7 @@ it('has an option that will let the command fail when a check fails', function (
 it('does not perform checks if checks are paused', function () {
     $mockRepository = Double::for(Repository::class);
 
-    $mockRepository->shouldReceive('get')
-        ->once()
-        ->with(PauseHealthChecksCommand::CACHE_KEY)
-        ->andReturn(true);
+    $mockRepository->expects('get')->with(PauseHealthChecksCommand::CACHE_KEY)->returns(true);
 
     Cache::swap($mockRepository);
 

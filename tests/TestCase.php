@@ -41,12 +41,10 @@ class TestCase extends Orchestra
     protected function fakeHorizonStatus(string $status): void
     {
         $masters = Double::for(MasterSupervisorRepository::class);
-        $masters->shouldReceive('all')->andReturn(
-            $status === 'down' ? [] : [
+        $masters->allows('all')->returns($status === 'down' ? [] : [
                 (object) ['status' => $status],
                 (object) ['status' => $status],
-            ]
-        );
+            ]);
 
         $this->app->instance(MasterSupervisorRepository::class, $masters);
     }
@@ -55,8 +53,7 @@ class TestCase extends Orchestra
     {
         $masters = Double::for(MasterSupervisorRepository::class);
 
-        $masters->shouldReceive('all')
-            ->andReturnUsing(function () use (&$statuses) {
+        $masters->allows('all')->resolves(function () use (&$statuses) {
                 $status = array_shift($statuses);
 
                 return $status === 'down' ? [] : [

@@ -10,14 +10,9 @@ use function Pest\Laravel\artisan;
 it('sets cache value to true for default ttl', function () {
     $mockRepository = Double::for(Repository::class);
 
-    $mockRepository->shouldReceive('put')
-        ->once()
-        ->with(
-            PauseHealthChecksCommand::CACHE_KEY,
+    $mockRepository->expects('put')->with(PauseHealthChecksCommand::CACHE_KEY,
             true,
-            PauseHealthChecksCommand::DEFAULT_TTL
-        )
-        ->andReturn(true);
+            PauseHealthChecksCommand::DEFAULT_TTL)->returns(true);
 
     Cache::swap($mockRepository);
 
@@ -31,14 +26,9 @@ it('sets cache value to true for default ttl', function () {
 it('sets cache value to true for custom ttl', function () {
     $mockRepository = Double::for(Repository::class);
 
-    $mockRepository->shouldReceive('put')
-        ->once()
-        ->with(
-            PauseHealthChecksCommand::CACHE_KEY,
+    $mockRepository->expects('put')->with(PauseHealthChecksCommand::CACHE_KEY,
             true,
-            60
-        )
-        ->andReturn(true);
+            60)->returns(true);
 
     Cache::swap($mockRepository);
 
